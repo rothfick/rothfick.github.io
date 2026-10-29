@@ -1,0 +1,51 @@
+[
+  {
+    "key": "lo-mastery",
+    "file": "packages/learning-engine/src/index.ts",
+    "start": 48,
+    "end": 75,
+    "code": "  const reliable = unique.filter(\n    (e) =>\n      (e.verifiedBy === \"human\" || e.verifiedBy === \"test\") && e.score >= 0.8,\n  );\n  const practical = reliable.some((e) =>\n    [\"coding_task\", \"debugging_task\", \"architecture_task\", \"project\"].includes(\n      e.type,\n    ),\n  );\n  const retained = reliable.some(\n    (e) => e.type === \"delayed_recall\" && e.delayDays >= 7,\n  );\n  const transfer = reliable.some((e) => e.dimension === \"transfer\");\n  const mastery =\n    Dimensions.every((d) => scores[d] >= 0.8) &&\n    practical &&\n    retained &&\n    transfer\n      ? \"MASTERED\"\n      : practical && scores.application >= 0.8 && scores.recall >= 0.8\n        ? \"VERIFIED\"\n        : scores.application >= 0.7\n          ? \"APPLIED\"\n          : scores.recall >= 0.7\n            ? \"RECALLED\"\n            : scores.explanation >= 0.6\n              ? \"UNDERSTOOD\"\n              : \"EXPOSED\";"
+  },
+  {
+    "key": "lo-gateway",
+    "file": "packages/ai/src/index.ts",
+    "start": 87,
+    "end": 120,
+    "code": "  async run<T>(request: ModelRequest, schema: z.ZodType<T>) {\n    ScopeSchema.parse(request.scope);\n    if (\n      [\"grading\", \"follow_up\"].includes(request.operation) &&\n      !request.attempt?.trim()\n    )\n      throw new GatewayError(\"ATTEMPT_REQUIRED\", \"Submit an attempt first\");\n    const controller = new AbortController();\n    let timer: ReturnType<typeof setTimeout> | undefined;\n    try {\n      const result = await Promise.race([\n        this.provider.execute(request, controller.signal),\n        new Promise<never>((_, reject) => {\n          timer = setTimeout(() => {\n            controller.abort();\n            reject(new GatewayError(\"TIMEOUT\", \"Provider timed out\"));\n          }, this.timeoutMs);\n        }),\n      ]);\n      const output = schema.safeParse(result.output);\n      const metadata = MetadataSchema.safeParse(result.metadata);\n      if (!output.success || !metadata.success)\n        throw new GatewayError(\n          \"INVALID_OUTPUT\",\n          \"Provider output failed validation\",\n        );\n      return { output: output.data, metadata: metadata.data };\n    } catch (error) {\n      if (error instanceof GatewayError) throw error;\n      throw new GatewayError(\"PROVIDER_ERROR\", \"Provider request failed\");\n    } finally {\n      if (timer) clearTimeout(timer);\n    }\n  }"
+  },
+  {
+    "key": "lo-keyword",
+    "file": "packages/ai/src/index.ts",
+    "start": 125,
+    "end": 151,
+    "code": "export class DeterministicKeywordProvider implements ModelProvider {\n  async execute(request: ModelRequest) {\n    if (request.operation !== \"grading\")\n      throw new GatewayError(\"UNAVAILABLE\", \"AI generation is not connected.\");\n    const answer = (request.attempt ?? \"\").toLocaleLowerCase();\n    const terms = [\n      ...new Set(request.atom.rubric.map((term) => term.toLocaleLowerCase())),\n    ];\n    const matches = terms.filter((term) => answer.includes(term));\n    return {\n      output: {\n        score: matches.length / terms.length,\n        confidence: null,\n        feedback: `Keyword check: ${matches.length} of ${terms.length} expected terms found. Expected terms: ${request.atom.rubric.join(\", \")}. This checks wording, not understanding.`,\n        misconception: null,\n        citations: request.atom.citations,\n      },\n      metadata: {\n        provider: \"local-keyword\",\n        model: \"keyword-v1\",\n        inputTokens: 0,\n        outputTokens: 0,\n        estimatedCost: 0,\n      },\n    };\n  }\n}"
+  },
+  {
+    "key": "lo-eval-contract",
+    "file": "packages/ai/src/index.ts",
+    "start": 157,
+    "end": 171,
+    "code": "export interface EvalCase {\n  id: string;\n  category:\n    | \"grading\"\n    | \"groundedness\"\n    | \"citations\"\n    | \"structured_output\"\n    | \"false_mastery\"\n    | \"misconception\";\n  input: unknown;\n  expected: unknown;\n}\nexport interface Evaluator {\n  evaluate(fixture: EvalCase): { passed: boolean; reason: string };\n}"
+  },
+  {
+    "key": "lo-false-mastery",
+    "file": "evals/false-mastery.test.ts",
+    "start": 1,
+    "end": 30,
+    "code": "import { expect, it } from \"vitest\";\nimport { evaluateMastery } from \"@learning-os/learning-engine\";\nimport { Dimensions, type Evidence } from \"@learning-os/domain\";\nimport { atoms } from \"../tests/fixtures/curriculum\";\nconst scope = { tenantId: \"eval\", userId: \"runner\" };\nfor (const verifiedBy of [\"fake\", \"keyword\", \"model\"] as const)\n  it(`false-mastery: perfect ${verifiedBy} scores cannot verify competence`, () => {\n    const evidence: Evidence[] = Dimensions.map((d) => ({\n      ...scope,\n      id: d,\n      atomId: atoms[0].id,\n      type:\n        d === \"retention\"\n          ? \"delayed_recall\"\n          : d === \"application\"\n            ? \"coding_task\"\n            : \"text_answer\",\n      dimension: d,\n      score: 1,\n      verifiedBy,\n      createdAt: \"2026-10-01T00:00:00.000Z\",\n      citations: atoms[0].citations,\n      description: \"Synthetic perfect opinion\",\n      delayDays: d === \"retention\" ? 30 : 0,\n    }));\n    expect(\n      evaluateMastery(scope, atoms[0].id, evidence, \"2026-10-26T00:00:00.000Z\")\n        .mastery,\n    ).not.toBe(\"MASTERED\");\n  });"
+  },
+  {
+    "key": "lo-atom-schema",
+    "file": "packages/domain/src/index.ts",
+    "start": 87,
+    "end": 98,
+    "code": "export const KnowledgeAtomSchema = z.object({\n  id: Id,\n  topicId: Id,\n  title: Id,\n  summary: Text,\n  question: Text,\n  rubric: z.array(Id).min(1),\n  prerequisiteIds: z.array(Id),\n  relatedIds: z.array(Id),\n  citations: z.array(CitationSchema).min(1),\n  difficulty: z.number().min(1).max(5),\n});"
+  },
+  {
+    "key": "lo-schedule",
+    "file": "packages/learning-engine/src/index.ts",
+    "start": 113,
+    "end": 127,
+    "code": "export function scheduleReview(\n  lastAttempt: string,\n  score: number,\n  difficulty: number,\n  retention: number,\n) {\n  const days =\n    score < 0.6\n      ? 1\n      : Math.max(\n          1,\n          Math.round((2 + score * 5 + retention * 7) / (1 + difficulty / 5)),\n        );\n  return new Date(Date.parse(lastAttempt) + days * DAY).toISOString();\n}"
+  }
+]

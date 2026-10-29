@@ -1,0 +1,450 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   One light theme: paper, stone plates, graphite ink and a single ultramarine
+   "blue pencil" that marks actions, the current item and figure numbers.
+   Pass / partial / fail colours always travel with a glyph or a word.
+   Contrast ratios (WCAG 2.x) are against --paper unless noted.
+--------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+  --paper: #f3f1ec;
+  --raised: #fbfaf7; /* code, menus, contents sheet, diagram nodes */
+  --stone: #e6e2d9; /* screenshot plates and the contact band only */
+  --paper-dim: #e9e6df; /* active rows, secondary hover, inline code */
+  --ink: #1d1c1a; /* 15.09 */
+  --ink-2: #55524b; /* 6.90 — captions, meta, notes */
+  --ink-3: #6b675f; /* 4.99 — code line numbers and comments only */
+  --line: #d6d2c8; /* decorative hairlines */
+  --line-strong: #827c71; /* control borders, node outlines: 3.67 */
+  --accent: #2b3cc4; /* 7.31 */
+  --accent-press: #2433b0; /* 8.55 */
+  --accent-ink: #ffffff; /* 8.25 on accent */
+  --accent-wash: #e8e9f5;
+  --pass: #2f6b46; /* 5.62 */
+  --fail: #b3261e; /* 5.79 */
+  --partial: #8a5a00; /* 5.25 */
+
+  /* Page grid: 4 / 8 / 12 columns, content capped at 1328px. */
+  --pad: clamp(16px, 4vw, 56px);
+  --gap: 16px;
+  --cols: 4;
+  --max: 1328px;
+}
+@media (min-width: 40rem) {
+  :root {
+    --gap: 20px;
+    --cols: 8;
+  }
+}
+@media (min-width: 64rem) {
+  :root {
+    --gap: 24px;
+    --cols: 12;
+  }
+}
+@media (prefers-contrast: more) {
+  :root {
+    --ink-2: var(--ink);
+    --ink-3: var(--ink);
+    --line: var(--line-strong);
+  }
+}
+
+@theme inline {
+  --color-*: initial;
+  --color-paper: var(--paper);
+  --color-raised: var(--raised);
+  --color-stone: var(--stone);
+  --color-paper-dim: var(--paper-dim);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-press: var(--accent-press);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-pass: var(--pass);
+  --color-fail: var(--fail);
+  --color-partial: var(--partial);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-serif: var(--font-newsreader), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    background: var(--paper);
+    font-synthesis: none;
+    font-optical-sizing: auto;
+    font-kerning: normal;
+  }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.625;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  main {
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+    hyphens: manual;
+    overflow-wrap: break-word;
+    font-weight: 400;
+  }
+  p,
+  li,
+  dd,
+  figcaption {
+    text-wrap: pretty;
+  }
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+  img,
+  svg,
+  picture {
+    display: block;
+    max-width: 100%;
+  }
+  [id] {
+    scroll-margin-top: 64px;
+  }
+  @media (min-width: 64rem) {
+    [id] {
+      scroll-margin-top: 32px;
+    }
+  }
+}
+
+@media (max-width: 39.99rem) {
+  :lang(pl) .prose p {
+    hyphens: auto;
+    hyphenate-limit-chars: 8 4 4;
+    -webkit-hyphenate-limit-before: 4;
+    -webkit-hyphenate-limit-after: 4;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Page grid with named lines: [full] for full-bleed, [content] for the text
+   columns. Column n starts at grid line n + 1, so c1–c3 is col-[2/span_3].
+--------------------------------------------------------------------------- */
+@utility page-grid {
+  display: grid;
+  column-gap: var(--gap);
+  grid-template-columns:
+    [full-start] minmax(calc(var(--pad) - var(--gap)), 1fr)
+    [content-start] repeat(var(--cols), minmax(0, calc((var(--max) - (var(--cols) - 1) * var(--gap)) / var(--cols))))
+    [content-end] minmax(calc(var(--pad) - var(--gap)), 1fr) [full-end];
+  & > * {
+    grid-column: content;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Type scale. Newsreader carries the voice (names, headings, numerals);
+   Schibsted Grotesk carries documentation (body, UI, meta). Every clamp
+   interpolates between 360px and 1440px.
+--------------------------------------------------------------------------- */
+@utility t-display {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.75rem, 2.0833rem + 2.963vw, 4.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.022em;
+}
+@utility t-h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 1.8333rem + 2.963vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+@utility t-h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.125rem, 1.6667rem + 2.037vw, 3.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+@utility t-h3 {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  font-size: clamp(1.625rem, 1.4167rem + 0.926vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+@utility t-h4 {
+  font-family: var(--font-serif);
+  font-weight: 450;
+  font-size: clamp(1.3125rem, 1.25rem + 0.278vw, 1.5rem);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+@utility t-statement {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.3125rem, 1.1667rem + 0.648vw, 1.75rem);
+  line-height: 1.36;
+  letter-spacing: -0.005em;
+}
+@utility t-lead-sm {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.1875rem, 1.125rem + 0.278vw, 1.375rem);
+  line-height: 1.36;
+}
+/* Body and prose are Schibsted. */
+@utility t-body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.625;
+  @media (width >= 40rem) {
+    font-size: 1.0625rem;
+    line-height: 1.647;
+  }
+}
+@utility t-prose {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.647;
+  @media (width >= 64rem) {
+    font-size: 1.125rem;
+    line-height: 1.667;
+  }
+}
+@utility t-desc {
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.53;
+}
+@utility t-ui {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.333;
+}
+@utility t-meta {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.005em;
+  color: var(--ink-2);
+}
+@utility t-num-xl {
+  font-family: var(--font-serif);
+  font-size: 2.125rem;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums tabular-nums;
+  @media (width >= 40rem) {
+    font-size: 2.5rem;
+  }
+}
+@utility t-num-fact {
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  line-height: 1.1;
+  font-variant-numeric: lining-nums tabular-nums;
+  @media (width >= 40rem) {
+    font-size: 2rem;
+  }
+}
+@utility nums {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+@utility measure {
+  max-width: 64ch;
+}
+
+/* Inline links inside prose. */
+.prose a {
+  color: var(--ink);
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  text-underline-offset: 0.2em;
+  text-decoration-skip-ink: auto;
+  transition: color 150ms, text-decoration-color 150ms;
+}
+.prose a:hover {
+  color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--accent);
+}
+.prose a:active {
+  color: var(--accent-press);
+}
+.prose p + p {
+  margin-top: 1em;
+}
+:not(pre) > code {
+  font-size: 0.875em;
+  background: var(--paper-dim);
+  border-radius: 2px;
+  padding: 0.1em 0.3em;
+}
+
+/* Rows whose whole area is one link: the ring goes around the row. */
+.row-link {
+  position: relative;
+}
+.row-link:has(a:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.row-link a:focus-visible {
+  outline: none;
+}
+
+/* Test results bar: solid pass, hatched fail. */
+.results-fail {
+  background: repeating-linear-gradient(135deg, var(--fail) 0 1.5px, transparent 1.5px 4px);
+  box-shadow: inset 0 0 0 1px var(--fail);
+}
+
+/* Horizontal scroll regions with CSS-only edge shadows. */
+.scroll-x {
+  overflow-x: auto;
+  background:
+    linear-gradient(to right, var(--paper), var(--paper)) left / 24px 100% no-repeat local,
+    linear-gradient(to left, var(--paper), var(--paper)) right / 24px 100% no-repeat local,
+    linear-gradient(to right, rgb(29 28 26 / 0.12), transparent) left / 12px 100% no-repeat scroll,
+    linear-gradient(to left, rgb(29 28 26 / 0.12), transparent) right / 12px 100% no-repeat scroll;
+}
+
+/* ---------------------------------------------------------------------------
+   Code listings: one light theme on --raised.
+--------------------------------------------------------------------------- */
+.code-block pre {
+  margin: 0;
+  padding: 1rem 0;
+  background: transparent !important;
+  font-size: 0.84375rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.code-block code {
+  counter-reset: line var(--start, 0);
+  display: block;
+  min-width: max-content;
+}
+.code-block .line {
+  display: inline-block;
+  width: 100%;
+  padding-right: 1.25rem;
+}
+.code-block .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 2.75rem;
+  margin-right: 1rem;
+  padding-right: 0.75rem;
+  text-align: right;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+  border-right: 1px solid var(--line);
+  user-select: none;
+}
+@media (max-width: 39.99rem) {
+  .code-block pre {
+    font-size: 0.78125rem;
+    line-height: 1.55;
+    padding-inline: var(--pad);
+  }
+  .code-block code {
+    min-width: 0;
+  }
+  .code-block .line {
+    display: block;
+    white-space: pre-wrap;
+    padding-left: 2ch;
+    text-indent: -2ch;
+    overflow-wrap: anywhere;
+  }
+  .code-block .line::before {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Project filter: radio buttons + :has(), no JavaScript.
+--------------------------------------------------------------------------- */
+.project-filter:has(input[value="ai"]:checked) ~ .project-list > li:not([data-categories~="ai"]),
+.project-filter:has(input[value="reliability"]:checked) ~ .project-list > li:not([data-categories~="reliability"]),
+.project-filter:has(input[value="automation"]:checked) ~ .project-list > li:not([data-categories~="automation"]),
+.project-filter:has(input[value="architecture"]:checked) ~ .project-list > li:not([data-categories~="architecture"]),
+.project-filter:has(input[value="research"]:checked) ~ .project-list > li:not([data-categories~="research"]) {
+  display: none;
+}
+
+@media print {
+  header[data-site-header],
+  [data-contents],
+  [data-chapter-bar],
+  footer nav {
+    display: none !important;
+  }
+  .prose a[href^="http"]::after {
+    content: " (" attr(href) ")";
+  }
+  figure,
+  tr,
+  [data-ledger-entry] {
+    break-inside: avoid;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,5 @@
+allowBuilds:
+  # Ships a prebuilt native binding; its postinstall script is not needed.
+  unrs-resolver: false
+minimumReleaseAgeExclude:
+  - lucide-react@1.64.0
