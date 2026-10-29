@@ -87,7 +87,10 @@ Production: https://rothfick.github.io/en/ (Polish: /pl/).
 a bilingual 404 page and `.nojekyll`. Images are served as local assets.
 `pnpm start` serves the export locally on port 3210; set PORT to override.
 `pnpm verify` checks types, lint, unit tests, build and browser tests against
-that static export. The GitHub Actions workflow publishes successful main
-branch builds using GitHub Pages (Settings → Pages → GitHub Actions).
+that static export. The live site publishes the prebuilt `gh-pages` branch. The optional workflow
+is manual-only because account billing currently blocks custom Actions jobs.
+To use that workflow later, resolve the account issue and switch Settings →
+Pages → Source to GitHub Actions. Until then, build and verify locally, then
+publish the contents of `out/` to `gh-pages`. Changes to main alone do not deploy.
 
 No server, secret API keys or paid domain is required.
