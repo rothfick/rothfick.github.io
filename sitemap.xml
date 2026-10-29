@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<url>
+<loc>https://rothfick.github.io/en</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl" />
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl" />
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/lab" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/lab" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/services</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/services" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/services" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/services</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/services" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/services" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/about</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/about" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/about" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/about</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/about" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/about" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/principles</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/principles" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/principles" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/principles</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/principles" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/principles" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/contact</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/contact" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/contact" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/contact</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/contact" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/contact" />
+<changefreq>monthly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects/learning-os</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/learning-os" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/learning-os" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects/learning-os</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/learning-os" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/learning-os" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects/ai-reliability-lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/ai-reliability-lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/ai-reliability-lab" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects/ai-reliability-lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/ai-reliability-lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/ai-reliability-lab" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects/distributed-qa</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/distributed-qa" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/distributed-qa" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects/distributed-qa</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/distributed-qa" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/distributed-qa" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects/resilience-framework</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/resilience-framework" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/resilience-framework" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects/resilience-framework</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/resilience-framework" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/resilience-framework" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/en/projects/agentic-lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/agentic-lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/agentic-lab" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://rothfick.github.io/pl/projects/agentic-lab</loc>
+<xhtml:link rel="alternate" hreflang="en" href="https://rothfick.github.io/en/projects/agentic-lab" />
+<xhtml:link rel="alternate" hreflang="pl" href="https://rothfick.github.io/pl/projects/agentic-lab" />
+<changefreq>monthly</changefreq>
+<priority>0.8</priority>
+</url>
+</urlset>
